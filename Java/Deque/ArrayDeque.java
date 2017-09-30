@@ -1,136 +1,137 @@
 /**
- * Created by Arsen on 9/27/17.
+ * Created by Arsen on 9/30/17.
  */
-public class ArrayDeque<Type> {
-
-    private Type[] items;
+public class ArrayDeque<Item> implements Deque<Item> {
+    private Item[] items;
+    private int nextFirst;
+    private int nextLast;
     private int size;
-    private int nextFirst=4;
-    private int nextLast=5;
-    private int lastcounter;
-    private int firstcounter;
+    private static final int INITIAL_CAPACITY = 8;
 
-
-    /* Cretes an empty list */
-    public ArrayDeque(int size) {
-
-        items = (Type[]) new Object[8]; // generic arrays are not allowed
-        size=0;
+    public ArrayDeque() {
+        items = (Item[]) new Object[INITIAL_CAPACITY];
+        nextFirst = 0;
+        nextLast = 1;
+        size = 0;
     }
 
-    private void resize(int capacity) {
-        Type[] a = (Type[]) new Object[capacity*2];
-        // java does not allow to create arrays of generic objects
-
-        for (int i = 0; i<items.length; i++) {
-                a[a.length-items.length+i] = items[i];
-            }
-        nextFirst =  a.length - items.length-1;
-        items = a;
-        nextLast = 0;
-        lastcounter = 0;
-        firstcounter = 0;
-
-//        System.arraycopy(items, 0, a, 0, size);
-//        items = a;
-
+    @Override
+    public void addFirst(Item item) {
+        if (isFull()) {
+            extend();
+        }
+        items[nextFirst] = item;
+        nextFirst = minusOne(nextFirst);
+        size++;
     }
 
-
-    /* Adds an item to the front of the Deque. */
-    public void addFirst(Type x) {
-        if (items.length == size){
-            resize(size+1);
+    @Override
+    public void addLast(Item item) {
+        if (isFull()) {
+            extend();
         }
+        items[nextLast] = item;
+        nextLast = plusOne(nextLast);
+        size++;
+    }
 
-        if (items[nextFirst + firstcounter] == null){
-            items[nextFirst + firstcounter] = x;
-            firstcounter--;
-            size+=1;
-        }
-}
+    private void extend() {
+        resize(2 * size());
+    }
 
-
-    /* Insert X into the back of the list */
-    public void addLast(Type x) {
-
-        if (items.length == size){
-            resize(size+1);
-        }
-
-
-        if(items[nextLast+lastcounter] == null) {
-            items[nextLast + lastcounter] = x;
-            lastcounter++;
-            size += 1;
-        }
-        if(nextLast+lastcounter == items.length){
-            lastcounter = 0;
-            nextLast = 0;
-        }
+    @Override
+    public boolean isEmpty() {
+        return minusOne(nextLast) == nextFirst;
     }
 
 
-
-    /* Returns true if deque is empty, false otherwise */
-    public boolean isEmpty(){
-        if (size == 0){
-            return true;
-        }
-        return false;
-    }
-
-
-    /* Returns the number of items in the Deque. */
-    public int size(){
+    @Override
+    public int size() {
         return size;
     }
 
-    /* Prints the items in the Deque from first to last, separated by a space. */
-    public void printDeque(){
-        for (int i = 0; i < items.length ; i++){
-            System.out.println(i + " item is " + items[i]);
+    public int capacity() {
+        return items.length;
+    }
+
+    @Override
+    public Item removeFirst() {
+        if (isSparse()) {
+            shrink();
+        }
+        nextFirst = plusOne(nextFirst);
+        Item toRemove = items[nextFirst];
+        items[nextFirst] = null;
+        size--;
+        return toRemove;
+    }
+
+    @Override
+    public Item removeLast() {
+        if (isSparse()) {
+            shrink();
+        }
+        nextLast = minusOne(nextLast);
+        Item toRemove = items[nextLast];
+        items[nextLast] = null;
+        size--;
+        return toRemove;
+    }
+
+    private void shrink() {
+        resize(items.length / 2);
+    }
+
+    private void resize(int target) {
+        // TODO: refactor resize to smaller functions.
+        Item[] oldItems = items;
+        int oldFirst = plusOne(nextFirst);
+        int oldLast = minusOne(nextLast);
+
+        items = (Item[]) new Object[target];
+        nextFirst = 0;
+        nextLast = 1;
+        for (int i = oldFirst; i != oldLast; i = plusOne(i, oldItems.length)) {
+            items[nextLast] = oldItems[i];
+            nextLast = plusOne(nextLast);
+        }
+        items[nextLast] = oldItems[oldLast];
+        nextLast = plusOne(nextLast);
+    }
+
+    @Override
+    public Item get(int index) {
+        return items[plusIndex(nextFirst + 1, index)];
+    }
+
+    @Override
+    public void printDeque() {
+        for (int i = plusOne(nextFirst); i != nextLast; i = plusOne(i)) {
+            System.out.print(items[i] + " ");
         }
     }
 
-    /* Removes and returns the item at the front of the Deque. If no such item exists, returns null. */
-    public Type removeFirst(){
-        Type temp = items[nextFirst+firstcounter+1];
-        items[nextFirst + firstcounter+1] = null;
-        return temp;
+    private int minusOne(int index) {
+        return Math.floorMod(index - 1, items.length);
     }
 
-    /* Removes and returns the item at the back of the Deque. If no such item exists, returns null. */
-    public Type removeLast(){
-        Type temp = items[nextLast + lastcounter-1];
-        items[nextLast + lastcounter-1] = null;
-        return temp;
-
+    private int plusOne(int index) {
+        return Math.floorMod(index + 1, items.length);
     }
 
-    public Type get(int index){
-        for (int i =0; i<items.length;i++){
-            if (i==index){
-                return items[i];
-            }
-        }
-        return null;
+    private int plusOne(int index, int size) {
+        return Math.floorMod(index + 1, size);
     }
 
+    private int plusIndex(int index, int offset) {
+        return Math.floorMod(index + offset, items.length);
+    }
 
+    private boolean isFull() {
+        return size() == items.length;
+    }
 
-
-
-
-
-
-
-
-
-    public static void main(String[] args){
-        ArrayDeque<Integer> array = new <Integer> ArrayDeque(8);
-
-
-        
+    private boolean isSparse() {
+        return items.length >= 16 && size() < items.length / 4;
     }
 }
