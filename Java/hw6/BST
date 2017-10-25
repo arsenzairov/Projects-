@@ -1,0 +1,5 @@
+Create a class BSTMap that implements the Map61B interface using a BST (Binary Search Tree) as its core data structure. 
+You must do this in a file named BSTMap.java. 
+Just as in HW5, your implementation is required to implement all of the methods given in Map61B except for remove and keyset.
+
+In your implementation you should assume that generic keys K in BSTMap<K,V> extend Comparable.
