@@ -1,0 +1,9 @@
+This project is based on the project 3 of Berkeley CS61B course in SP2015.
+
+Trie and AlphabetSort
+
+Trie.java is an implementation of a trie. AlphabetSort sorts a list of words into alphabetical order, according to a given permutation of some alphabet.
+
+Ternary Search Tree and Autocomplete
+
+Ternary.java provides an implementation of TST. Using ternary search tree and priority queue, Autocomplete.java provides autocomplete functionality for a given set of terms and weights. Data files can be downloaded from the project repository.
