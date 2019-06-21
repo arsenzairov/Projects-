@@ -1,5 +1,3 @@
-import java.lang.reflect.Array;
-
 public class ArrayDeque<Item> {
 
     private Item[] items;
@@ -97,7 +95,7 @@ public class ArrayDeque<Item> {
         Item itemToRemove = items[size-1];
         items[size-1] = null;
         size--;
-        if (((double) size/items.length <= RFACTOR)) {
+        if (((double) size/items.length <= RFACTOR && items.length >=4)) {
             resize(items.length/2);
         }
         return itemToRemove;
@@ -105,14 +103,19 @@ public class ArrayDeque<Item> {
 
     /** Remove the first element of the array */
     public Item removeFirst() {
-        if (size==0) {
+        if (size==0 || items.length == 0) {
             setRFACTOR(0);
             return null;
         }
+
         Item itemToRemove = items[0];
         Item[] temp = (Item[]) new Object[items.length];
-        System.arraycopy(items, 1, temp,0,size);
-        if (((double) size/items.length <= RFACTOR)) {
+
+        for (int i =1; i<items.length; i++) {
+            temp[i-1] = items[i];
+        };
+
+        if (((double) size/items.length <= RFACTOR && items.length >=4)) {
             resize(items.length/2);
         }
         size--;
@@ -120,61 +123,4 @@ public class ArrayDeque<Item> {
         return itemToRemove;
     }
 
-
-
-
-    public static void main(String[] args) {
-        ArrayDeque<String> test = new ArrayDeque<>();
-        System.out.println("Should be true for empty list: " + test.isEmpty());
-        System.out.println(test.size());
-
-//        test.addLast("hello");
-//        test.addFirst("world");
-
-        // addLast Test
-        test.addLast("Greyworm");
-        test.addLast("Missandei");
-        test.addLast("Daenerys");
-        test.addLast("Jon/Aegon");
-        test.addLast("Arya");
-        test.addLast("Tyrion");
-        test.addLast("Sansa");
-        test.addLast("Sam");
-        test.addLast("Jorah");
-//        test.printDeque();
-
-        // addFront Test
-        test.addFirst("Ghost");
-        test.addFirst("Ned");
-        test.addFirst("Bran");
-        test.addFirst("Cersei");
-        test.addFirst("Robert");
-        test.addFirst("Catlyn");
-        test.addFirst("Jaime");
-        test.addFirst("Bron");
-        test.addFirst("Varys");
-        test.printDeque();
-
-        test.removeFirst();
-        test.removeFirst();
-        test.removeFirst();
-        test.removeLast();
-        test.removeLast();
-        test.removeLast();
-        test.removeLast();
-        test.removeLast();
-        test.removeLast();
-        test.removeLast();
-        test.removeLast();
-        test.removeFirst();
-
-        test.printDeque();
-
-        // testing copy constructor
-
-        System.out.println("Testing get: " + test.get(0));
-        System.out.println("Testing get: " + test.get(3));
-
-        System.out.println(test.size());
-    }
 }
