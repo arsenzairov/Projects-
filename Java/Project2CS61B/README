@@ -1,0 +1,16 @@
+Clarifications
+This section will be for any details we believe were not clear enough in the original spec. It is placed at the top for better visibility.
+
+For phase 1, your game does not necessarily need to suppprt playWithKeyboard() but it must support a portion of the playWithInputString() method. Specifically, you should be able to play your game with an input string which starts a new game, types in a seed, begins the game/generates the world, and then returns the array representing the world at that point. This essentially means you must support any string of the format “N#######S” where each # is a digit and there can be an arbitrary number of #s.
+Letters in the input string can be of either case and your game should be able to accept either keypress (ie. “N” and “n” should both start a new game from the menu screen).
+In the case that a player attempts to load a game with no previous save, your game should end and the game window should close with no errors produced.
+In the base requirements, the command “:Q” should save and completely terminate the program. This means an input string that contains “:Q” should not have any more characters after it and loading a game would require the program to be run again with an input string starting with “L”
+Your game should be able to handle any positive seed up to 9,223,372,036,854,775,807.
+Your game should NOT render any tiles or play any sound when played with playWithInputString().
+StdDraw does not support key combinations. When we say “:Q”, we mean “:” followed by “Q”.
+Your project should only use standard java libraries (imported from java.*) or any libraries we provided with your repo. This is only relevant to the autograder so if you’d like to other libraries for gold points and for the video, feel free to do so.
+Any TETile objects you create should be given a unique character that other tile’s do not use. Even if you are using your own images for rendering the tile, each TETile should still have its own character representation.
+The only files you may create must have the suffix “.txt” (for example “savefile.txt”). You will get autograder issues if you do not do this.
+
+Introduction
+In Project 2, you will create an engine for generating explorable worlds, which for lack of a better word we will call a “game”. This is a large design project that will require you and one partner to work through every stage of development from ideation to presentation. The goal of this project is to teach you how to handle a larger piece of code with little starter code in the hopes of emulating something like a product development cycle. In accordance with this, the grading of this project will be different from other projects. Since there is no notion of “the correct answer” when it comes to game design and implementation, you will be assessed much like a performance review you might receive at an internship or job in addition to a very general autograder. While this means you will be graded slightly subjectively, we promise to be pretty nice bosses and will respect you as any boss should respect their hard working employees. Please talk to us if you feel the grading scheme feels unfair.
