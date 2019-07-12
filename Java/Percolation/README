@@ -1,0 +1,1 @@
+In this program, we’ll write a program to estimate the value of the percolation threshold via Monte Carlo simulation. You will be using a disjoint sets implementation provided as part of the Princeton standard library.
