@@ -1,0 +1,72 @@
+Boggle
+Note: This homework is harder than the other makeup homework.
+
+Description
+The game of Boggle involves finding valid words on a 4x4 board of letters.
+
+A brief description of the rules: Each player searches for words that can be constructed from the letters of sequentially adjacent cubes, where “adjacent” cubes are those horizontally, vertically, and diagonally neighboring. Words must be at least three letters long, may include singular and plural (or other derived forms) separately, but may not use the same letter cube more than once per word.
+
+In homework, you will implement a generalized Boggle solver with a few modifications:
+
+You will not have to account for the “qu” tile
+You must support rectangular boards of arbitrary dimensions
+The design choice of data structures and algorithms is up to you. However, we will impose a runtime requirements, which are discussed in a following section.
+
+Boggle reads an NxM newline separated letter grid from a .txt file. You should use Princeton Library, In.java, for reading from files.
+
+A default dictionary of allowed words, the file words.txt, is provided in the skeleton. The file path to this dictionary file is stored in the static variable String dictPath in Boggle.java. Your program should support other word dictionary files. This is done by manually changing the value of dictPath in Boggle.java.
+
+This means that you should not hardcode the dictionary path. More concretely, do
+
+new In(dictPath);
+and not
+
+new In("words.txt");
+Task
+Complete solve(int k, String boardFilePath) method in Boggle.java.
+
+This method returns the k longest unique words sorted in descending order of length. If multiple words have the same length, print them in ascending alphabetical order.
+
+To accomplish this, you will need to create your own efficent Trie data structure. You can write this new class in a new file, (e.g. Trie.java), or in Boggle.java. At this point of the semester, you should have an idea of what elegant code should look like. Use your best stylistic judgements when writing your code.
+
+Example
+For Boggle board file exampleBoard.txt, default dictionary words.txt, and k = 7:
+
+exampleBoard.txt:
+
+ness
+tack
+bmuh
+esft
+we expect:
+
+[thumbtacks, thumbtack, setbacks, setback, ascent, humane, smacks]
+For Boggle board file exampleBoard2.txt, dictionary file trivial_words.txt, and k = 20:
+
+exampleBoard2.txt:
+
+baa
+aba
+aab
+baa
+trivial_words.txt:
+
+aaaa
+aaaaa
+Output:
+
+[aaaaa, aaaa]
+Timing and Runtime
+You will be graded on runtime. You should be able to handle large dictionaries and boards efficiently. For a dictionary of fixed size, and a random board, you should have runtime expected linear in the size of the board - that is, for an N x M board and getting the top k words, your runtime should be expected O(MN log k). Don’t think too hard about this expected runtime though - the analysis for this is a little complex and we can certainly bound it tighter. If you have an efficient solution that behaves and grows linearly with the size of the board, you should pass the autograder.
+
+For example, on my computer, one solve on testsmallboard (100x100) takes 209ms and one solve on testlargeboard (500x500, 25x larger) takes 4957ms. Linearly extrapolating from the testsmallboard runtime, we would expect a runtime of 209*25=5225, which is close to the observed runtime for testlargeboard.
+
+Some tips: you cannot inspect all possible permutations of words (in other words, you cannot submit a brute force solution). Your solution should utilize pruning - if you cannot continue constructing a word from a certain letter onwards, you should not explore that letter’s neighbor nodes. As a warning: if you have a recursive solution, it is possible that it is slower by a nontrivial constant factor than an equivalent iterative solution.
+
+Error Cases
+For Boggle, throw an IllegalArgumentException (with some informative message of your choice) if:
+
+The input board is not rectangular.
+The dictionary file does not exist.
+k is non-positive.
+Do not call System.exit().
