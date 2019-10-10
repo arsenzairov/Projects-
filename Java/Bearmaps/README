@@ -1,0 +1,10 @@
+Introduction
+This project was originally created by former TA Alan Yao (now at AirBNB). It is a web mapping application inspired by Alan’s time on the Google Maps team and the OpenStreetMap project, from which the tile images and map feature data was downloaded. You are working with real-world mapping data here that is freely available - after you’ve finished this project, you can even extend your code to support a wider range of features. You will be writing the back end - the web server that powers the API that the front end makes requests to. The project 3 video playlist starts with an introductory video that should help you get started. The slides that will be used in the project 3 video playlist are available here.
+
+This project is a solo project. You should not work with a partner. One of our biggest goals for 61B is to develop your independence as a programmer, and this project is a great milestone for you to complete on your own before you go on to bigger and better things. Please make sure to review the course collaboration policy, as this is the project that tends to generate the most issues with academic dishonesty. You should NOT be working very closely with a group on this entire project, though it is OK to discuss with others in ways that obey the collaboration policy.
+
+The point breakdown for this 150 point project are as follows: 75 points for Part I. 75 points for Parts II and III (exact distribution TBA). You can also earn 6 extra credit points for submitting to the extra credit autograder by Friday 4/13/2018, which will cover only Part I. 12 gold points can be earned for completing Autocomplete.
+
+By the end of this project, with some extra work, you can even host your application as a web app. More details will be provided at the end of this spec.
+
+There is a reference version of the spring 17 version of the project that you can try out at http://grigomaps.herokuapp.com/map.html. It will probably be quite slow given that lots of people will be using it. We will be updating this with a spring 18 version soon.
